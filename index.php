@@ -1,36 +1,53 @@
-<?php
-    include("simple_html_dom.php");
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    // Create DOM from URL or file
-    $url = file_get_html('http://www.kolorsplash.com/');
+        <title>Video Player</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 
-    // Find all images
-    foreach($url->find('img') as $element){
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
-        // save image to file
-        $ch = curl_init($element->src);
-        $my_save_dir = 'img/';
-        $filename = basename($element->src);
-        $complete_save_loc = $my_save_dir . $filename;
+        <!-- custome css -->
+        <link rel="stylesheet" href="asset/css/custom.css">
+    </head>
+   
+    <body>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="header">
+                        <h1>Enter a website to crawl</h1>
+                        <p>This PHP web crawler will craw for images and links. All images will be saved to the image folder withen the app</p>
 
-        $fp = fopen($complete_save_loc, 'wb');
+                        <form method="POST" action="" name="videoForm">
+                            <div class="form-group">
+                                <input type="text" name="url" class="form-controll">
+                            </div>
+                            <button type="submit" name="FormBtn" class="btn btn-primary">start</button>
+                        </form>
+                       
+                    </div>      
+                </div>
+            </div>
+            <br>
+        </div>
+    </body>
 
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
+    <?php
+        include("class.php"); 
+        if(isset($_POST['FormBtn'])){
 
-        // echo $element->src. '<img src="{{$element->src}}"/>';
-        echo '<img src="' . $element->src . '" alt="error">'; 
-        // echo '<img src="' . $file_path. '" alt="error">'; 
-    }
+            $url = $_POST['url'];
+            $init = new Crawler;
+            $init->index($url);
 
-    // Find all links
-    foreach($url->find('a') as $element){
-        echo $element->href . '<br>';
-
-    }
-?>
-
-        
+            return false;
+        }
+    ?>
+</html>
