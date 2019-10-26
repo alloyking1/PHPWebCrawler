@@ -31,23 +31,29 @@
                             </div>
                             <button type="submit" name="FormBtn" class="btn btn-primary">start</button>
                         </form>
-                       
+
+
                     </div>      
                 </div>
+                    <?php
+                        include("class.php"); 
+                        if(isset($_POST['FormBtn'])){
+
+                            $url = $_POST['url'];
+                            $init = new Crawler;
+                    ?>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <?php echo $init->index($url); ?>
+                            </div>
+                        </div>
+                    <?php
+                        }
+                    ?>
+               
             </div>
             <br>
         </div>
     </body>
 
-    <?php
-        include("class.php"); 
-        if(isset($_POST['FormBtn'])){
-
-            $url = $_POST['url'];
-            $init = new Crawler;
-            $init->index($url);
-
-            return false;
-        }
-    ?>
 </html>
